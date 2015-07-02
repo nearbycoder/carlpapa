@@ -1,4 +1,6 @@
-var mongoose     = require('mongoose');
+
+//EXAMPLE
+/*var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var PollSchema   = new Schema({
@@ -11,4 +13,4 @@ var PollSchema   = new Schema({
 	IpAddresses: Schema.Types.Mixed,
 });
 
-module.exports = mongoose.model('Poll', PollSchema);
+module.exports = mongoose.model('Poll', PollSchema);*/
