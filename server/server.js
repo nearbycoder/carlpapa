@@ -27,7 +27,7 @@ var mongoose   = require('mongoose');
 mongoose.connect(settings.db); // connect to our database
 
 //require in mongoose models
-//var Poll     = require('./app/models/poll');
+var Recipe     = require('./app/models/recipe');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -48,6 +48,26 @@ router.get('/', function(req, res) {
 	res.json({ message: 'hooray! welcome to our api!' });	
 });
 
+router.get('/carlpapa', function(req, res) {
+	res.json({ message: 'Hey carlpapa' });	
+});
+
+router.route('/recipe')
+
+	.post(function(req, res){
+		var recipe = new Recipe();
+		recipe.name = req.body.name;
+		recipe.ingredients = req.body.ingredients;
+		recipe.insructions = req.body.instructions;
+
+		recipe.save(function(err, recipe){
+			if(err)
+				res.send(err);
+
+		res.json([{ response: 'Recipe Created'}, {recipe: recipe}]);
+
+		});
+	});
 
 app.use('/api', router);
 
