@@ -18,11 +18,12 @@ angular
     'ngTouch'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
       .state('/', {
-        url: "/",
-        templateUrl: "views/main.html"
+        url: '/',
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
       })
   });
