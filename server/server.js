@@ -58,7 +58,7 @@ router.route('/recipe')
 		var recipe = new Recipe();
 		recipe.name = req.body.name;
 		recipe.ingredients = req.body.ingredients;
-		recipe.insructions = req.body.instructions;
+		recipe.instructions = req.body.instructions;
 
 		recipe.save(function(err, recipe){
 			if(err)
