@@ -5,3 +5,5 @@ client/.sass-cache
 client/bower_components
 server/node_modules
 server/npm-debug.log
+server/config.js
+

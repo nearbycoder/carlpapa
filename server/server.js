@@ -6,7 +6,6 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
 var settings = require('./config');
 
 var allowCrossDomain = function(req, res, next) {
