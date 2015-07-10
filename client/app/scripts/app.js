@@ -24,6 +24,6 @@ angular
       .state('/', {
         url: '/',
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainController'
       })
-  });
+  }).constant('myConfig', { 'backend':'http://localhost:9090/api/recipe/' });

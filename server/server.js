@@ -37,18 +37,18 @@ var Recipe     = require('./app/models/recipe');
 var router = express.Router();
 
 // middleware to use for all requests
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
 	// do logging
 	console.log('Something is happening.');
 	next();
 });
 
 // test route to make sure everything is working (accessed at GET /api)
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
 	res.json({ message: 'hooray! welcome to our api!' });	
 });
 
-router.get('/carlpapa', function(req, res) {
+router.get('/carlpapa', function (req, res) {
 	res.json({ message: 'Hey carlpapa' });	
 });
 
@@ -66,6 +66,18 @@ router.route('/recipe')
 
 		res.json([{ response: 'Recipe Created'}, {recipe: recipe}]);
 
+		});
+
+
+
+	})
+
+	.get(function(req, res){
+		Recipe.find(function (err, recipe){
+			if(err)
+				res.send(err);
+
+			res.json(recipe);
 		});
 	});
 
