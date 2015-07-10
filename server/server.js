@@ -39,13 +39,13 @@ var router = express.Router();
 // middleware to use for all requests
 router.use(function (req, res, next) {
 	// do logging
-	console.log('Something is happening.');
 	next();
 });
 
 // test route to make sure everything is working (accessed at GET /api)
-router.get('/', function (req, res) {
-	res.json({ message: 'hooray! welcome to our api!' });	
+router.get('/', function(req, res) {
+	res.json({ message: 'hooray! welcome to carl papa\'s api' });	
+
 });
 
 router.get('/carlpapa', function (req, res) {
@@ -84,4 +84,4 @@ router.route('/recipe')
 app.use('/api', router);
 
 server.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Carl Papa happens on port ' + port);
