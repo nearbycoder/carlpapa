@@ -8,6 +8,14 @@
  * Controller of the carlpapaApp
  */
 angular.module('carlpapaApp')
-  .controller('MainCtrl', function ($scope) {
-    
+  .controller('MainController', function ($scope, $http, myConfig) {
+    $http.get(myConfig.backend)
+      .success(function(data){
+        $scope.recipes = [];
+        
+          for(var i=0;i<data.length;i++){
+            $scope.recipes.push({ name: data[i].name });
+          }
+          
+      });
   });

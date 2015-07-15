@@ -71,7 +71,7 @@ router.route('/recipe')
 
 
 	})
-
+	//Get all recipes
 	.get(function(req, res){
 		Recipe.find(function (err, recipe){
 			if(err)
@@ -80,6 +80,18 @@ router.route('/recipe')
 			res.json(recipe);
 		});
 	});
+
+//
+router.route('/recipe/:recipe_id')
+	
+	.get(function(req, res) {
+		Recipe.findOne({_id :req.params.recipe_id}, function(err, recipe) {
+			if (err)
+				res.send(err);
+				
+			res.json(recipe);
+		});
+	})
 
 app.use('/api', router);
 
