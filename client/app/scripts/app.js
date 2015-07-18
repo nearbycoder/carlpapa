@@ -30,5 +30,11 @@ angular
         url: '/:id',
         templateUrl: 'views/modify.html',
         controller: 'ModifyController'
+      })
+      .state('/:add', {
+        url: '/:add',
+        templateUrl: 'views/add.html',
+        controller: 'AddController'
       });
-  }).constant('myConfig', { 'backend':'http://localhost:9090/api/recipe/' });
+  })
+  .constant('myConfig', { 'backend':'http://localhost:9090/api/recipe/' });
