@@ -82,10 +82,10 @@ router.route('/recipe')
 	});
 
 //
-router.route('/recipe/:recipe_id')
+router.route('/recipe/:recipe-id')
 	
 	.get(function(req, res) {
-		Recipe.findOne({_id :req.params.recipe_id}, function(err, recipe) {
+		Recipe.findOne({_id :req.params.recipe-id}, function(err, recipe) {
 			if (err)
 				res.send(err);
 				

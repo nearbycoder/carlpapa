@@ -20,7 +20,7 @@ angular.module('carlpapaApp')
       });
 
   	$scope.add = function(){      
-  		$location.path('/add');
+  		$location.path('add');
   	};
 
   });

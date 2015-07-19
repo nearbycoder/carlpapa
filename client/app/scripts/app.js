@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -31,8 +32,8 @@ angular
         templateUrl: 'views/modify.html',
         controller: 'ModifyController'
       })
-      .state('/:add', {
-        url: '/:add',
+      .state('add', {
+        url: '/add',
         templateUrl: 'views/add.html',
         controller: 'AddController'
       });
