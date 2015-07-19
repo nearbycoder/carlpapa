@@ -32,7 +32,7 @@ angular
         templateUrl: 'views/add.html',
         controller: 'AddController'
       })
-      .state('/:id', {
+      .state(':id', {
         url: '/:id',
         templateUrl: 'views/modify.html',
         controller: 'ModifyController'

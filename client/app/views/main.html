@@ -1,5 +1,23 @@
-<div ng-repeat="recipe in recipes">	
-	<p>{{recipe.name}}</p>
-</div>
+<div class="grid">
 
-<a class="btn btn-primary submitButton" ng-click="add()">Add Recipe</a>
+	<div class="row cells12">
+
+	<div class="cell"></div>
+
+		<div class="cell colspan10">
+
+			<div ng-repeat="recipe in recipes">	
+				<button class="button large-button center-block"><span class="mif-pencil"></span> {{recipe.name}}</button>
+			</div>
+
+			<button class="button primary large-button submitButton center-block" ng-click="add()"><span class="mif-plus"></span> Add Recipe</button>
+		
+		</div>
+
+	<div class="cell"></div>
+
+	
+
+
+
+</div>
