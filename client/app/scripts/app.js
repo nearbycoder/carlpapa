@@ -17,8 +17,8 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
+  .config(function ($stateProvider, $urlRouterProvider) {
+    
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -27,15 +27,16 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainController'
       })
-      .state('/:id', {
-        url: '/:id',
-        templateUrl: 'views/modify.html',
-        controller: 'ModifyController'
-      })
       .state('add', {
         url: '/add',
         templateUrl: 'views/add.html',
         controller: 'AddController'
+      })
+      .state('/:id', {
+        url: '/:id',
+        templateUrl: 'views/modify.html',
+        controller: 'ModifyController'
       });
+      
   })
   .constant('myConfig', { 'backend':'http://localhost:9090/api/recipe/' });
