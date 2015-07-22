@@ -66,9 +66,27 @@
 
 			 };		
 
+
 			 $scope.appendIngredient = function($index){
-			 	if($index + 1 == $scope.ingredients.length){
-			 		$scope.ingredients.push({ name: ""});
-			 	} 
+			 	//check if all ingredient fields are full
+			 	var listIsFull = true;
+
+			 	for(var x=0; x < $scope.ingredients.length; x++){
+			 		if($scope.ingredients[x].name === undefined){
+			 			console.log($scope.ingredients[x].name + " at " + $index + " is undefined");
+			 			listIsFull = false;
+			 		}
+			 		else{
+			 			console.log($scope.ingredients[x].name + " at " + $index + " is defined");
+			 		}
+			 	}
+
+			 	if(listIsFull === true){
+			 		console.log("list is full");
+			 		//$scope.ingredients.push({ name: "" });
+			 	}
+			 	else{
+			 		console.log("list is not full");
+			 	}
 			 }; 
 	 });
