@@ -1,14 +1,28 @@
-<h4>Modify Recipe</h4>
+	<div class="row">
 
-<h4>{{ title }}</h4>
-		
-	<ul>
-		<li ng-repeat="ingredient in ingredients">
-			<p>{{ ingredient.name }}</p>		
-		</li>
-	</ul>
+		<form class="col s12">
+
+		<h4>Modify {{ title }} Recipe</h4>
+
+				<div class="input-field">
+					<input type="text" id="recipeName" ng-model="name" value=""/>
+					<label class="active" for="recipeName">Recipe Name:</label>
+				</div>
+
+				<div class="input-field" ng-repeat="ingredient in ingredients">
+					<input type="text" id="ingredient1" ng-model="ingredient.name" value = "ingredient.name" ng-blur="addIngredientField()"/>
+					<label class="active" for="ingredient1">Ingredient:</label>
+				</div>
+
+				<div class="input-field">
+					<textarea class="materialize-textarea" id="instructions" ng-model="instructions" ></textarea>
+					<label class="active" for="instructions">Instructions:</label>
+				</div>
+
+				<button class="waves-effect waves-light btn center-block" ng-click="modifyRecipe()">{{ ButtonMsg }}</button>
+
+		</form>
+
 	
-	<textarea>
-		{{ instructions }}
-	</textarea>
+	</div>
 	

@@ -93,6 +93,16 @@ router.route('/recipe/:_id')
 		});
 	})
 
+	.put(function(req, res){
+
+		Recipe.findOneAndUpdate({_id:req.params._id}, req.body, function(err, recipe){
+			res.send(recipe);
+
+		});
+		
+
+	});
+
 app.use('/api', router);
 
 server.listen(port);

@@ -9,11 +9,14 @@
  */
  
  angular.module('carlpapaApp')
- 	.controller('ModifyController', function($scope, $state, $stateParams, $http, myConfig){
+ 	.controller('ModifyController', function($scope, $timeout, $state, $stateParams, $http, myConfig){
 		$http.get(myConfig.backend + $stateParams.id)
 			.success(function(data){
 				
-				$scope.title = data.name;							
+				$scope.ButtonMsg = "Save Recipe";
+
+				$scope.title = data.name;
+				$scope.name = data.name;							
 				$scope.ingredients = [];
 				$scope.instructions = data.instructions;
 				
@@ -22,9 +25,48 @@
 					for(var item=0;item<data.ingredients.length;item++){
 						$scope.ingredients.push({ name: data.ingredients[item].name });
 				 	}
+
+				 	$scope.ingredients.push({ name: ""});
+
 				} else {					
 					$scope.ingredients.push({ name: data.ingredients});
+					$scope.ingredients.push({ name: ""});
 				}
 				 
-			 });			 
+			 });	
+
+			 $scope.modifyRecipe = function(){
+			 	var newIngredients = [];
+			 	var recipeCompleted = false;
+
+			 	for(var x = 0; x < $scope.ingredients.length; x++){
+			 		if($scope.ingredients[x].name !== undefined){
+			 			newIngredients.push({ name: $scope.ingredients[x].name });	
+			 		}			 		
+
+			 		if($scope.name !== undefined && $scope.ingredients[x].name !== undefined){
+			 			recipeCompleted = true;
+			 		}
+			 	}
+
+			 	if(recipeCompleted !== false){
+			 		$('.submitButton').hide();
+					
+					$http.put(myConfig.backend + $stateParams.id, {name: $scope.name, ingredients: newIngredients, instructions: $scope.instructions})
+				 		.success(function(data){
+				 			$scope.ButtonMsg = "Recipe Saved!";
+
+				 			$timeout(function(){
+				 				$scope.ButtonMsg = "Save Recipe";
+				 			}, 5000);
+
+				 		}); 		
+			 	}
+
+
+			 };		
+
+			 $scope.addIngredientField = function(){
+			 	$scope.ingredients.push({ name: ""});
+			 }; 
 	 });

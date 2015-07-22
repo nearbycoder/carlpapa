@@ -14,7 +14,7 @@ angular.module('carlpapaApp')
         $scope.recipes = [];
         
           for(var i=0;i<data.length;i++){
-            $scope.recipes.push({ name: data[i].name });
+            $scope.recipes.push({ data: data[i] });
           }
                     
       });
@@ -22,5 +22,9 @@ angular.module('carlpapaApp')
   	$scope.add = function(){      
   		$location.path('add');
   	};
+
+    $scope.modifyRecipe = function(recipeId){
+      $location.path(recipeId);
+    };
 
   });

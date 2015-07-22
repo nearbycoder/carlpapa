@@ -31,11 +31,7 @@ module.exports = function(config) {
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
-<<<<<<< HEAD
       'bower_components/materialize/bin/materialize.js',
-=======
-      'bower_components/metro/build/js/metro.js',
->>>>>>> fd07264427978130183306b4452a0fb6efe32217
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
