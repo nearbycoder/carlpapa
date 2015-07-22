@@ -29,8 +29,14 @@ angular.module('carlpapaApp')
 				$('.submitButton').hide();
 				$http.post(myConfig.backend, {name:$scope.name, ingredients: ingredients, instructions: $scope.instructions})
 					.success(function(data){
+<<<<<<< HEAD
 						console.log('Recipe was added: ' + data[1].recipe.name);
 						$location.path('/' + data[1].recipe._id);						
+=======
+						console.log("Recipe was added: " + data[1].recipe.name);
+						$location.path('/' + data[1].recipe._id);
+						//$scope.location = window.location.protocol + window.location.host + ;
+>>>>>>> fd07264427978130183306b4452a0fb6efe32217
 					});
 			}
 
