@@ -11,7 +11,13 @@ angular.module('carlpapaApp')
 	.controller('AddController', function($scope, $location, $http, myConfig){
 		$scope.ingredients = [{},{},{}];
 
-		
+		$scope.appendIngredient = function($index){
+			if($index + 1  == $scope.ingredients.length){
+				$scope.ingredients.push({ name: ""});
+			}
+
+		};
+
 		$scope.addRecipe = function(){
 			var ingredients = [];
 			var recipeCompleted = false;

@@ -8,7 +8,7 @@
 				</div>
 
 				<div class="input-field" ng-repeat="ingredient in ingredients">
-					<input type="text" id="ingredient1" ng-model="ingredient.name" />
+					<input type="text" id="ingredient1" ng-model="ingredient.name" ng-blur="appendIngredient($index)" />
 					<label for="ingredient1">Ingredient:</label>
 				</div>
 

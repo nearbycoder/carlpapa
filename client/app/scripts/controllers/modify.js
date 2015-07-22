@@ -66,7 +66,9 @@
 
 			 };		
 
-			 $scope.addIngredientField = function(){
-			 	$scope.ingredients.push({ name: ""});
+			 $scope.appendIngredient = function($index){
+			 	if($index + 1 == $scope.ingredients.length){
+			 		$scope.ingredients.push({ name: ""});
+			 	} 
 			 }; 
 	 });

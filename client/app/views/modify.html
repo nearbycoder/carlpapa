@@ -10,7 +10,7 @@
 				</div>
 
 				<div class="input-field" ng-repeat="ingredient in ingredients">
-					<input type="text" id="ingredient1" ng-model="ingredient.name" value = "ingredient.name" ng-blur="addIngredientField()"/>
+					<input type="text" id="ingredient1" ng-model="ingredient.name" value = "ingredient.name" ng-blur="addIngredientField($index)"/>
 					<label class="active" for="ingredient1">Ingredient:</label>
 				</div>
 
