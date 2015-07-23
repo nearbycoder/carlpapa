@@ -39,8 +39,13 @@
 			 	var newIngredients = [];
 			 	var recipeCompleted = false;
 
+			 	if($scope.ingredients[$scope.ingredients.length - 1].name === null || $scope.ingredients[$scope.ingredients.length - 1].name === ''){
+			 		$scope.ingredients.pop();
+			 	}
+			 	
+
 			 	for(var x = 0; x < $scope.ingredients.length; x++){
-			 		if($scope.ingredients[x].name !== undefined){
+			 		if($scope.ingredients[x].name !== '' && $scope.ingredients[x].name !== null){
 			 			newIngredients.push({ name: $scope.ingredients[x].name });	
 			 		}			 		
 
@@ -68,25 +73,17 @@
 
 
 			 $scope.appendIngredient = function($index){
-			 	//check if all ingredient fields are full
-			 	var listIsFull = true;
 
 			 	for(var x=0; x < $scope.ingredients.length; x++){
-			 		if($scope.ingredients[x].name === undefined){
-			 			console.log($scope.ingredients[x].name + " at " + $index + " is undefined");
-			 			listIsFull = false;
-			 		}
-			 		else{
-			 			console.log($scope.ingredients[x].name + " at " + $index + " is defined");
+
+			 		if($scope.ingredients[x].name === '' || $scope.ingredients[x].name === null){
+			 			$scope.ingredients.splice(x, 1);
+			 			x = x - 1;
 			 		}
 			 	}
 
-			 	if(listIsFull === true){
-			 		console.log("list is full");
-			 		//$scope.ingredients.push({ name: "" });
-			 	}
-			 	else{
-			 		console.log("list is not full");
-			 	}
+			 		$scope.ingredients.push({ name: "" });
+			 	
 			 }; 
+			 
 	 });
