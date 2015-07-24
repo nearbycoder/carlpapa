@@ -15,18 +15,15 @@ angular.module('carlpapaApp')
 			var ingredients = [];
 			var recipeCompleted = false;
 
-			if($scope.name != null && $scope.name != ''){
+			if($scope.name != null && $scope.name != '' && $scope.instructions != null && $scope.instructions != ''){
 
 				for(var x=0;x < $scope.ingredients.length; x++){
 
-					if($scope.ingredients[x].name == '' || $scope.ingredients[x].name == null){
-						console.log(x + " is null or empty. Splicing...")
-			 			$scope.ingredients.splice(x, 1);
-			 		} 
-			 		else {
-						console.log(x + ' is not null or empty. Pushing...');
+					if($scope.ingredients[x].name != '' && $scope.ingredients[x].name != null){
 			 			ingredients.push({ name: $scope.ingredients[x].name });	
-			 		}
+
+			 		} 
+			 		
 
 				}
 
@@ -36,13 +33,11 @@ angular.module('carlpapaApp')
 					$http.post(myConfig.backend, {name:$scope.name, ingredients: ingredients, instructions: $scope.instructions})
 						.success(function(data){
 							console.log('Recipe was added: ' + data[1].recipe.name);
-							$location.path('/' + data[1].recipe._id);						
+							$location.path('/');						
 
 						});
 				}
-				else{
-					$scope.ingredients.push({name: ''});
-				}
+				
 
 			}
 
@@ -50,18 +45,11 @@ angular.module('carlpapaApp')
 
 		};
 
-		$scope.appendIngredient = function($index){
+		$scope.appendIngredient = function(){
 
-			 	for(var x=0; x < $scope.ingredients.length; x++){
-
-			 		if($scope.ingredients[x].name == '' || $scope.ingredients[x].name == null){
-			 			$scope.ingredients.splice(x, 1);
-			 			x = x - 1;
-			 		}
+			 	if($scope.ingredients[$scope.ingredients.length - 1].name != null && $scope.ingredients[$scope.ingredients.length - 1].name != ''){
+			 		$scope.ingredients.push({ name: "" });			 	
 			 	}
-
-			 		$scope.ingredients.push({ name: "" });
-			 	
-		 };
+		};
 		
 	});

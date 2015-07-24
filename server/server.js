@@ -101,6 +101,12 @@ router.route('/recipe/:_id')
 		});
 		
 
+	})
+
+	.delete(function(req, res){
+		Recipe.findOneAndRemove({_id:req.params._id}, function(err, recipe){
+			res.json({ response: 'Recipe Deleted'});
+		});
 	});
 
 app.use('/api', router);

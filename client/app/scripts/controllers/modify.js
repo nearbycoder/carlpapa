@@ -9,7 +9,7 @@
  */
  
  angular.module('carlpapaApp')
- 	.controller('ModifyController', function($scope, $timeout, $state, $stateParams, $http, myConfig){
+ 	.controller('ModifyController', function($scope, $location, $timeout, $state, $stateParams, $http, myConfig){
 		$http.get(myConfig.backend + $stateParams.id)
 			.success(function(data){
 				
@@ -39,51 +39,51 @@
 			 	var newIngredients = [];
 			 	var recipeCompleted = false;
 
-			 	if($scope.ingredients[$scope.ingredients.length - 1].name === null || $scope.ingredients[$scope.ingredients.length - 1].name === ''){
-			 		$scope.ingredients.pop();
-			 	}
-			 	
+			 	if($scope.name != null && $scope.name != ''){
 
-			 	for(var x = 0; x < $scope.ingredients.length; x++){
-			 		if($scope.ingredients[x].name !== '' && $scope.ingredients[x].name !== null){
-			 			newIngredients.push({ name: $scope.ingredients[x].name });	
-			 		}			 		
+					for(var x=0;x < $scope.ingredients.length; x++){
 
-			 		if($scope.name !== undefined && $scope.ingredients[x].name !== undefined){
-			 			recipeCompleted = true;
-			 		}
-			 	}
+						if($scope.ingredients[x].name != '' && $scope.ingredients[x].name != null && $scope.instructions != null && $scope.instructions != ''){
+				 			newIngredients.push({ name: $scope.ingredients[x].name });	
 
-			 	if(recipeCompleted !== false){
-			 		$('.submitButton').hide();
-					
-					$http.put(myConfig.backend + $stateParams.id, {name: $scope.name, ingredients: newIngredients, instructions: $scope.instructions})
-				 		.success(function(data){
-				 			$scope.ButtonMsg = "Recipe Saved!";
+				 		} 
+				 		
 
-				 			$timeout(function(){
-				 				$scope.ButtonMsg = "Save Recipe";
-				 			}, 5000);
+					}
 
-				 		}); 		
-			 	}
+					if(newIngredients.length > 0){
 
+				 		$('.submitButton').hide();
+						
+							$http.put(myConfig.backend + $stateParams.id, {name: $scope.name, ingredients: newIngredients, instructions: $scope.instructions})
+						 		.success(function(data){
+						 			$scope.ButtonMsg = "Recipe Saved!";
+
+						 			$timeout(function(){
+						 				$scope.ButtonMsg = "Save Recipe";
+						 			}, 5000);
+
+						 		}); 
+				 		}		
+				}
 
 			 };		
 
 
-			 $scope.appendIngredient = function($index){
+			$scope.appendIngredient = function(){
 
-			 	for(var x=0; x < $scope.ingredients.length; x++){
-
-			 		if($scope.ingredients[x].name === '' || $scope.ingredients[x].name === null){
-			 			$scope.ingredients.splice(x, 1);
-			 			x = x - 1;
-			 		}
+			 	if($scope.ingredients[$scope.ingredients.length - 1].name != null && $scope.ingredients[$scope.ingredients.length - 1].name != ''){
+			 		$scope.ingredients.push({ name: "" });			 	
 			 	}
+			};
 
-			 		$scope.ingredients.push({ name: "" });
-			 	
-			 }; 
-			 
+			$scope.deleteRecipe = function(){
+				$http.delete(myConfig.backend + $stateParams.id)
+					.success(function(data){
+							$location.path('/');						
+					});
+
+
+			};
+
 	 });
