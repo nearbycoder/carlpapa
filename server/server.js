@@ -9,19 +9,15 @@ var server = require('http').createServer(app);
 var jwt = require('jsonwebtoken');
 var settings = require('./config');
 var morgan = require('morgan');
+var cors = require('cors')
 
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,x-access-token');
 
-    next();
-}
+
 
 // configure app
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(allowCrossDomain);
+app.use(cors());
 app.use(morgan('dev'));
 
 var port = process.env.PORT || 9090; // set our port
