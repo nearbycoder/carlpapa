@@ -30,11 +30,58 @@ app.set('superSecret', settings.secret);
 //require in mongoose models
 var User = require('./app/models/user');
 
+/*
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, x-access-token, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS,");
+  next();
+});
+*/
+
 // ROUTES FOR OUR API
 // =============================================================================
 
 // create our router
 var router = express.Router();
+
+router.route('/authenticate')
+	
+	.post(function(req,res){
+		// find the user
+		  User.findOne({
+		    email: req.body.email
+		  }, function(err, user) {
+
+		    if (err) throw err;
+
+		    if (!user) {
+		      res.json({ success: false, message: 'Authentication failed. Email or Password not correct.' });
+		    } else if (user) {
+
+		      // check if password matches
+		      if (user.password != req.body.password) {
+		        res.json({ success: false, message: 'Authentication failed. Email or Password not correct.' });
+		      } else {
+
+		        // if user is found and password is right
+		        // create a token
+		        var token = jwt.sign(user, app.get('superSecret'), {
+		          expiresInMinutes: 1440 // expires in 24 hours
+		        });
+
+		        // return the information including token as JSON
+		        res.json({
+		          success: true,
+		          message: 'Enjoy your token!',
+		          token: token
+		        });
+		      }   
+
+		    }
+
+		  });
+});
 
 router.use(function(req, res, next) {
 	// check header or url parameters or post parameters for token
@@ -90,43 +137,7 @@ app.post('/createAccount', function(req, res){
 });
 */
 
-router.route('/authenticate')
-	
-	.post(function(req,res){
-		// find the user
-		  User.findOne({
-		    email: req.body.email
-		  }, function(err, user) {
 
-		    if (err) throw err;
-
-		    if (!user) {
-		      res.json({ success: false, message: 'Authentication failed. Email or Password not correct.' });
-		    } else if (user) {
-
-		      // check if password matches
-		      if (user.password != req.body.password) {
-		        res.json({ success: false, message: 'Authentication failed. Email or Password not correct.' });
-		      } else {
-
-		        // if user is found and password is right
-		        // create a token
-		        var token = jwt.sign(user, app.get('superSecret'), {
-		          expiresInMinutes: 1440 // expires in 24 hours
-		        });
-
-		        // return the information including token as JSON
-		        res.json({
-		          success: true,
-		          message: 'Enjoy your token!',
-		          token: token
-		        });
-		      }   
-
-		    }
-
-		  });
-});
 	
 
 
