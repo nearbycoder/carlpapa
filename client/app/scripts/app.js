@@ -15,14 +15,22 @@ angular
     'ngResource',
     'ui.router',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'satellizer'
   ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $authProvider) {
     
-    $urlRouterProvider.otherwise('/');
+    $authProvider.loginUrl = 'http://localhost:9090/api/authenticate';
+
+    $urlRouterProvider.otherwise('/login');
 
     $stateProvider
-      .state('/', {
+      .state('login', {
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginController'
+      })
+      .state('main', {
         url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainController'
@@ -39,4 +47,4 @@ angular
       });
       
   })
-  .constant('myConfig', { 'backend':'http://localhost:9090/api/recipe/' });
+  .constant('myConfig', { 'backend':'http://localhost:9090/api/' });

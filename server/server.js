@@ -12,8 +12,8 @@ var morgan = require('morgan');
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,x-access-token');
 
     next();
 }
@@ -37,11 +37,45 @@ var User = require('./app/models/user');
 // ROUTES FOR OUR API
 // =============================================================================
 
+// create our router
+var router = express.Router();
+
+router.use(function(req, res, next) {
+	// check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, app.get('superSecret'), function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;    
+        next();
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    });
+    
+  }
+});
+
 // test route to make sure everything is working (accessed at GET /api)
-app.get('/', function(req, res) {
+router.get('/', function(req, res) {
 	res.json({ message: 'hooray! welcome to carl papa\'s api' });	
 });
 
+/*
 app.post('/createAccount', function(req, res){
 	
 		var user = new User();
@@ -58,11 +92,11 @@ app.post('/createAccount', function(req, res){
 
 		});
 });
+*/
 
-// create our router
-var apiRoutes = express.Router();
-
-apiRoutes.post('/authenticate', function(req,res){
+router.route('/authenticate')
+	
+	.post(function(req,res){
 		// find the user
 		  User.findOne({
 		    email: req.body.email
@@ -98,43 +132,12 @@ apiRoutes.post('/authenticate', function(req,res){
 		  });
 });
 	
-//middleware for checking JWT
 
-apiRoutes.use(function(req, res, next) {
-
-  // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-  // decode token
-  if (token) {
-
-    // verifies secret and checks exp
-    jwt.verify(token, app.get('superSecret'), function(err, decoded) {      
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;    
-        next();
-      }
-    });
-
-  } else {
-
-    // if there is no token
-    // return an error
-    return res.status(403).send({ 
-        success: false, 
-        message: 'No token provided.' 
-    });
-    
-  }
-});
 
 
 //
 
-apiRoutes.route('/recipe')
+router.route('/recipe')
 
 	.post(function(req, res){
 		
@@ -151,7 +154,7 @@ apiRoutes.route('/recipe')
 	});
 
 
-apiRoutes.route('/recipe/:_id')
+router.route('/recipe/:_id')
 	
 	.get(function(req, res) {
 		//get single recipe for specific user
@@ -166,7 +169,7 @@ apiRoutes.route('/recipe/:_id')
 		//remove a single recipe
 	});
 
-app.use('/api', apiRoutes);
+app.use('/api', router);
 
 server.listen(port);
 console.log('Carl Papa happens on port ' + port);
