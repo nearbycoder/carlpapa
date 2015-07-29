@@ -45,9 +45,32 @@ app.use(function(req, res, next) {
 // create our router
 var router = express.Router();
 
+router.route('/createAccount')
+
+	.post(function(req, res){
+	
+		var user = new User();
+		user.email = req.body.email;
+		user.password = req.body.password;
+		user.recipes = [];
+
+		user.save(function(err, user){
+			if(err) throw err;
+
+		console.log('User Created Successfully');
+		res.json({success: true});
+
+		});
+	});
+
+
+
 router.route('/authenticate')
 	
 	.post(function(req,res){
+
+		console.log('attempting to authenticate');
+
 		// find the user
 		  User.findOne({
 		    email: req.body.email
@@ -66,11 +89,14 @@ router.route('/authenticate')
 
 		        // if user is found and password is right
 		        // create a token
-		        var token = jwt.sign(user, app.get('superSecret'), {
+		        var token = jwt.sign({_id: user._id, email: user.email}, app.get('superSecret'), {
 		          expiresInMinutes: 1440 // expires in 24 hours
 		        });
 
 		        // return the information including token as JSON
+
+		        console.log('token successful');
+
 		        res.json({
 		          success: true,
 		          message: 'Enjoy your token!',
@@ -113,36 +139,14 @@ router.use(function(req, res, next) {
   }
 });
 
-// test route to make sure everything is working (accessed at GET /api)
-router.get('/', function(req, res) {
-	res.json({ message: 'hooray! welcome to carl papa\'s api' });	
-});
-
-/*
-app.post('/createAccount', function(req, res){
-	
-		var user = new User();
-		user.email = req.body.email;
-		user.password = req.body.password;
-		user.ingredients = [];
-		user.instructions = {};
-
-		user.save(function(err, user){
-			if(err) throw err;
-
-		console.log('User Created Successfully');
-		res.json({success: true});
-
-		});
-});
-*/
-
-
-	
-
-
 
 //
+
+router.route('/getUser')
+	.post(function(req, res){
+		console.log('Retrieving authenticated user');
+
+	});
 
 router.route('/recipe')
 
@@ -155,7 +159,7 @@ router.route('/recipe')
 
 	//get all recipes for specific users
 	.get(function(req, res){
-		User.find({}, function(err, users){
+		User.findOne({email: req.body.email}, function(err, users){
 			res.json(users);
 		});
 	});
