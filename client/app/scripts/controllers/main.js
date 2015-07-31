@@ -8,11 +8,8 @@
  * Controller of the carlpapaApp
  */
 angular.module('carlpapaApp')
-  .controller('MainController', function ($scope, $http, $location, myConfig, auth) {
-
-    $scope.auth = auth;
-
-    $http.get(myConfig.backend + 'recipe')
+  .controller('MainController', function ($scope, $http, $location, myConfig) {
+    $http.get(myConfig.backend)
       .success(function(data){
         $scope.recipes = [];
         
