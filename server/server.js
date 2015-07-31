@@ -6,15 +6,14 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').createServer(app);
+var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var settings = require('./config');
 var morgan = require('morgan');
-var cors = require('cors')
-
-
-
+var cors = require('cors');
 
 // configure app
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -25,10 +24,10 @@ var port = process.env.PORT || 9090; // set our port
 var mongoose = require('mongoose');
 mongoose.connect(settings.db); // connect to our database
 
-app.set('superSecret', settings.secret);
-
 //require in mongoose models
 var User = require('./app/models/user');
+
+var jwtCheck = expressJwt({secret: settings.secret});
 
 /*
 app.use(function(req, res, next) {
@@ -39,6 +38,13 @@ app.use(function(req, res, next) {
 });
 */
 
+app.use('/api', jwtCheck);
+
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.send(401, 'Invalid Token');
+  }
+});
 // ROUTES FOR OUR API
 // =============================================================================
 
@@ -65,9 +71,7 @@ router.route('/createAccount')
 
 
 
-router.route('/authenticate')
-	
-	.post(function(req,res){
+app.post('/authenticate', function(req,res){
 
 		console.log('attempting to authenticate');
 
@@ -89,7 +93,7 @@ router.route('/authenticate')
 
 		        // if user is found and password is right
 		        // create a token
-		        var token = jwt.sign({_id: user._id, email: user.email}, app.get('superSecret'), {
+		        var token = jwt.sign({_id: user._id, email: user.email}, settings.secret, {
 		          expiresInMinutes: 1440 // expires in 24 hours
 		        });
 
@@ -109,6 +113,9 @@ router.route('/authenticate')
 		  });
 });
 
+
+
+/*
 router.use(function(req, res, next) {
 	// check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -138,49 +145,48 @@ router.use(function(req, res, next) {
     
   }
 });
-
+*/
 
 //
 
-router.route('/getUser')
-	.post(function(req, res){
-		console.log('Retrieving authenticated user');
+app.get('/api/getUser', function(req, res){
 
-	});
-
-router.route('/recipe')
-
-	.post(function(req, res){
 		
 
+		console.log('Retrieving authenticated user');
+		res.json({success: true});
+	});
+
+app.post('/api/recipe', function(req, res){
 		res.json([{ response: 'Recipe Created'}, {recipe: recipe}]);
+});
 
-	})
+//get all recipes for specific users
+app.get('/api/recipe', function(req, res){
 
-	//get all recipes for specific users
-	.get(function(req, res){
-		User.findOne({email: req.body.email}, function(err, users){
-			res.json(users);
-		});
+		
+
+		User.findOne({email: req.body.email}, function(err, user){
+		res.json(user.recipes);
 	});
+});
 
 
-router.route('/recipe/:_id')
-	
-	.get(function(req, res) {
+app.get('/api/recipe/:_id', function(req, res) {
 		//get single recipe for specific user
-	})
+});
 
-	.put(function(req, res){
-		//update a single recipe
+app.put('/api/recipe/:_id', function(req, res) {
+		//get single recipe for specific user
+});
 
-	})
+app.delete('/api/recipe/:_id', function(req, res) {
+	//get single recipe for specific user
+});
 
-	.delete(function(req, res){
-		//remove a single recipe
-	});
+	
 
-app.use('/api', router);
+//app.use('/api', router);
 
 server.listen(port);
 console.log('Carl Papa happens on port ' + port);

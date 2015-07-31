@@ -51,6 +51,8 @@
     <div ui-view=""></div>
     </div>
 
+    <script src="//cdn.auth0.com/js/lock-7.5.min.js"></script>    
+
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -63,9 +65,12 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/materialize/bin/materialize.js"></script>
-    <script src="bower_components/satellizer/satellizer.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="bower_components/angular-storage/dist/angular-storage.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+    <script src="//cdn.auth0.com/w2/auth0-angular-4.js"> </script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>

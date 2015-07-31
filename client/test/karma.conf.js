@@ -32,7 +32,8 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/materialize/bin/materialize.js',
-      'bower_components/satellizer/satellizer.js',
+      'bower_components/angular-jwt/dist/angular-jwt.js',
+      'bower_components/angular-storage/dist/angular-storage.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

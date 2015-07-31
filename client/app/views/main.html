@@ -2,6 +2,10 @@
 	
 		<div class="col s12 center-align"> 
 			
+		<h4>Recipe List</h4>
+
+		<span>{{ auth.user.email }}</span>
+
 			<div class="collection">
 					<a ng-repeat="recipe in recipes" href="#" class="collection-item" ng-click="modifyRecipe(recipe.data._id)">{{recipe.data.name}}</a>
 			</div>

@@ -10,7 +10,7 @@
  
  angular.module('carlpapaApp')
  	.controller('ModifyController', function($scope, $location, $timeout, $state, $stateParams, $http, myConfig){
-		$http.get(myConfig.backend + $stateParams.id)
+		$http.get(myConfig.backend + 'recipe/' + $stateParams.id)
 			.success(function(data){
 				
 				$scope.ButtonMsg = "Save Recipe";
@@ -55,7 +55,7 @@
 
 				 		$('.submitButton').hide();
 						
-							$http.put(myConfig.backend + $stateParams.id, {name: $scope.name, ingredients: newIngredients, instructions: $scope.instructions})
+							$http.put(myConfig.backend + 'recipe/' + $stateParams.id, {name: $scope.name, ingredients: newIngredients, instructions: $scope.instructions})
 						 		.success(function(data){
 						 			$scope.ButtonMsg = "Recipe Saved!";
 
@@ -78,7 +78,7 @@
 			};
 
 			$scope.deleteRecipe = function(){
-				$http.delete(myConfig.backend + $stateParams.id)
+				$http.delete(myConfig.backend + 'recipe/' + $stateParams.id)
 					.success(function(data){
 							$location.path('/');						
 					});
