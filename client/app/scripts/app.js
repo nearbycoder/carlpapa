@@ -22,27 +22,6 @@ angular
   ])
   .config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider) {
 
-
-    authProvider.init({
-      domain: 'YOUR_NAMESPACE',
-      clientID: 'YOUR_CLIENT_ID',
-      loginState: 'login' // matches login state
-    });
-
-
-    //
-
-    // We're annotating this function so that the `store` is injected correctly when this file is minified
-    jwtInterceptorProvider.tokenGetter = ['store', function(store) {
-      // Return the saved token
-      return store.get('token');
-    }];
-
-    $httpProvider.interceptors.push('jwtInterceptor');
-
-    //
-    
-
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
@@ -69,9 +48,42 @@ angular
         controller: 'ModifyController',
         data: { requiresLogin: true }
       });
+
+
+    authProvider.init({
+      domain: 'carlpapa.auth0.com',
+      clientID: 'M8hUFGA5AyVcLhP8wcadixPm2QQtaLbq',
+      loginUrl: '/login' // matches login state
+    });
+
+
+    //
+
+    // We're annotating this function so that the `store` is injected correctly when this file is minified
+    jwtInterceptorProvider.tokenGetter = function(store) {
+    return store.get('token');
+
+
+    $httpProvider.interceptors.push('jwtInterceptor');
+
+    //
+    
+
+    
       
-  }).run(function(auth) {
-  // This hooks al auth events to check everything as soon as the app starts
-  auth.hookEvents();
+  }).run(function($rootScope, auth, store, jwtHelper, $location) {
+  $rootScope.$on('$locationChangeStart', function() {
+    if (!auth.isAuthenticated) {
+      var token = store.get('token');
+      if (token) {
+        if (!jwtHelper.isTokenExpired(token)) {
+          auth.authenticate(store.get('profile'), token);
+        } else {
+          $location.path('/login');
+        }
+      }
+    }
+
+  });
 })
   .constant('myConfig', { 'backend':'http://localhost:9090/api/' });
